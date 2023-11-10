@@ -17,7 +17,7 @@ func truncateNumber(num float64, precision int) float64 {
 	return math.Trunc(num*factor) / factor
 }
 
-func LoadData(N int) []Item {
+func LoadData(N int) *[]Item {
 	var expectedTotal float64
 	itemCount := int(math.Pow(10, float64(N)))
 	itemList := make([]Item, 0, itemCount)
@@ -31,14 +31,14 @@ func LoadData(N int) []Item {
 	}
 
 	fmt.Printf("Expected total: %.4f\n", truncateNumber(expectedTotal, 4))
-	return itemList
+	return &itemList
 }
 
-func PartitionList(items []Item, numberOfThreads int) [][]Item {
-	sizeOfList := len(items)
+func PartitionList(items *[]Item, numberOfThreads int) *[]*[]Item {
+	sizeOfList := len(*items)
 	partSize := sizeOfList / numberOfThreads
 	remainder := sizeOfList % numberOfThreads
-	partitions := make([][]Item, 0, numberOfThreads)
+	partitions := make([]*[]Item, 0, numberOfThreads)
 
 	for i := 0; i < sizeOfList; {
 		end := i + partSize
@@ -49,8 +49,9 @@ func PartitionList(items []Item, numberOfThreads int) [][]Item {
 		if end > sizeOfList {
 			end = sizeOfList
 		}
-		partitions = append(partitions, items[i:end])
+		partition := (*items)[i:end]
+		partitions = append(partitions, &partition)
 		i = end
 	}
-	return partitions
+	return &partitions
 }
