@@ -1,23 +1,28 @@
 package main
 
 import (
+	DisplayResults "ParallelArraySummaryGo/internal/displayResults"
 	LoadData "ParallelArraySummaryGo/internal/loadData"
 	ProcessData "ParallelArraySummaryGo/internal/processData"
-	"fmt"
+	ProcessResult "ParallelArraySummaryGo/internal/resultsProcess"
+	Utils "ParallelArraySummaryGo/internal/utils"
 	"sync"
 )
 
 func main() {
-	N := 2
-	T := 4
+	var N, T int
 	var waitGroup sync.WaitGroup
+
+	Utils.LoadVariables(&N, &T)
 
 	partitions := LoadData.PartitionList(LoadData.LoadData(N), T)
 	resultsChannel := make(chan ProcessData.Result, T)
 	ProcessData.ProcessData(partitions, resultsChannel, &waitGroup)
-	total := 0.0
-	for result := range resultsChannel {
-		total += result.Total
-	}
-	fmt.Println("Total: ", total)
+
+	finalResult := ProcessResult.ProcessResults(resultsChannel)
+
+	DisplayResults.DisplayTotal(finalResult)
+	DisplayResults.DisplayTotalsByGroup(finalResult)
+	//DisplayResults.DisplayIdsWithValuesLessThanFive(finalResult)
+	//DisplayResults.DisplayIdsWithValuesGreaterThanFive(finalResult)
 }

@@ -17,6 +17,10 @@ func truncateNumber(num float64, precision int) float64 {
 	return math.Trunc(num*factor) / factor
 }
 
+func calculateExpectedTotal(total float64, expectedTotal *float64) {
+	*expectedTotal += total
+}
+
 func LoadData(N int) *[]Item {
 	var expectedTotal float64
 	itemCount := int(math.Pow(10, float64(N)))
@@ -24,13 +28,12 @@ func LoadData(N int) *[]Item {
 
 	for i := 0; i < itemCount; i++ {
 		total := truncateNumber(rand.Float64()*10, 4)
-		expectedTotal += total
-
+		calculateExpectedTotal(total, &expectedTotal)
 		group := rand.Intn(5) + 1
 		itemList = append(itemList, Item{i, total, group})
 	}
 
-	fmt.Printf("Expected total: %.4f\n", truncateNumber(expectedTotal, 4))
+	fmt.Printf("\nExpected total: %.4f ⚖️\n\n", expectedTotal)
 	return &itemList
 }
 
