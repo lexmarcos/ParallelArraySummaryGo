@@ -58,7 +58,7 @@ func ItemProcessor(items *[]LoadData.Item, name string, resultsChannel chan<- Re
 		appendToIdsWithValuesLessThanFive(item.ID, &result, item.Total)
 		appendToIdsWithValuesGreaterThanFive(item.ID, &result, item.Total)
 	}
-	fmt.Printf("Thread %s Total: %.4f 💰\n", name, result.Total)
+	//fmt.Printf("Thread %s Total: %.4f 💰\n", name, result.Total)
 	resultsChannel <- result
 	defer waitGroup.Done()
 }
