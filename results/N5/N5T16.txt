@@ -1,0 +1,14 @@
+Expected total: 501073.2614 ⚖️
+
+Starting threads 🧵
+Function execution time: 1.2257ms ⏱️
+
+Total after proccess: 501073.2614 💰
+
+
+Totals by Group:
+Group 2: 100494.6424 📊
+Group 1: 100770.1492 📊
+Group 4: 100045.6476 📊
+Group 5: 98920.5033 📊
+Group 3: 100842.3189 📊
