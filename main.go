@@ -1,11 +1,11 @@
 package main
 
 import (
-	DisplayResults "ParallelArraySummaryGo/internal/displayResults"
-	LoadData "ParallelArraySummaryGo/internal/loadData"
-	ProcessData "ParallelArraySummaryGo/internal/processData"
-	ProcessResult "ParallelArraySummaryGo/internal/resultsProcess"
-	Utils "ParallelArraySummaryGo/internal/utils"
+	DisplayResults "ParallelArraySummaryGo/src/displayResults"
+	LoadData "ParallelArraySummaryGo/src/loadData"
+	ProcessData "ParallelArraySummaryGo/src/processData"
+	ProcessResult "ParallelArraySummaryGo/src/resultsProcess"
+	Utils "ParallelArraySummaryGo/src/utils"
 	"sync"
 )
 
@@ -23,6 +23,6 @@ func main() {
 
 	DisplayResults.DisplayTotal(finalResult)
 	DisplayResults.DisplayTotalsByGroup(finalResult)
-	//DisplayResults.DisplayIdsWithValuesLessThanFive(finalResult)
-	//DisplayResults.DisplayIdsWithValuesGreaterThanFive(finalResult)
+	//DisplayResults.DisplayItemsWithValuesLessThanFive(finalResult)
+	//DisplayResults.DisplayItemsWithValuesGreaterThanFive(finalResult)
 }

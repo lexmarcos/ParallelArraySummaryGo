@@ -1,7 +1,7 @@
 package ProcessData
 
 import (
-	LoadData "ParallelArraySummaryGo/internal/loadData"
+	LoadData "ParallelArraySummaryGo/src/loadData"
 	"fmt"
 	"sync"
 	"time"
@@ -10,8 +10,8 @@ import (
 type Result struct {
 	Total                        float64
 	TotalsByGroup                map[int]float64
-	IdsWithValuesLessThanFive    []int
-	IdsWithValuesGreaterThanFive []int
+	ItemsWithValuesLessThanFive    int
+	ItemsWithValuesGreaterThanFive int
 }
 
 func ProcessData(partitions *[]*[]LoadData.Item, resultsChannel chan<- Result, waitGroup *sync.WaitGroup) {
@@ -28,15 +28,15 @@ func ProcessData(partitions *[]*[]LoadData.Item, resultsChannel chan<- Result, w
 	fmt.Printf("Function execution time: %v ⏱️\n", duration)
 }
 
-func appendToIdsWithValuesLessThanFive(id int, result *Result, total float64) {
+func appendToItemsWithValuesLessThanFive(id int, result *Result, total float64) {
 	if total < 5 {
-		result.IdsWithValuesLessThanFive = append(result.IdsWithValuesLessThanFive, id)
+		result.ItemsWithValuesLessThanFive++
 	}
 }
 
-func appendToIdsWithValuesGreaterThanFive(id int, result *Result, total float64) {
+func appendToItemsWithValuesGreaterThanFive(id int, result *Result, total float64) {
 	if total >= 5 {
-		result.IdsWithValuesGreaterThanFive = append(result.IdsWithValuesGreaterThanFive, id)
+		result.ItemsWithValuesGreaterThanFive++
 	}
 }
 
@@ -55,8 +55,8 @@ func ItemProcessor(items *[]LoadData.Item, name string, resultsChannel chan<- Re
 	for _, item := range *items {
 		addToTotal(item.Total, &result)
 		sumToGroup(item.Group, item.Total, &result)
-		appendToIdsWithValuesLessThanFive(item.ID, &result, item.Total)
-		appendToIdsWithValuesGreaterThanFive(item.ID, &result, item.Total)
+		appendToItemsWithValuesLessThanFive(item.ID, &result, item.Total)
+		appendToItemsWithValuesGreaterThanFive(item.ID, &result, item.Total)
 	}
 	//fmt.Printf("Thread %s Total: %.4f 💰\n", name, result.Total)
 	resultsChannel <- result
